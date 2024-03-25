@@ -10,6 +10,7 @@ const sdkConfig = {
 console.log(sdkConfig);
 
 export const CasdoorSDK = new Sdk(sdkConfig);
+export const ServerUrl = import.meta.env.VITE_SERVER_URL;
 
 export const isLoggedIn = () => {
   const token = getToken();

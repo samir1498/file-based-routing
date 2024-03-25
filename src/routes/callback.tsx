@@ -1,26 +1,34 @@
 import {
   Navigate,
   createFileRoute,
-  redirect,
-  useSearch,
+  useRouteContext,
 } from "@tanstack/react-router";
 
-import { useEffect } from "react";
 import * as Setting from "../Setting";
-import { setToken } from "../Setting";
+
+import { queryOptions } from "@tanstack/react-query";
+
+const authQueryOptions = () =>
+  queryOptions({
+    queryKey: ["auth"],
+    queryFn: () => Setting.CasdoorSDK.exchangeForAccessToken(),
+  });
 
 export const AuthCallback = () => {
-  const params = useSearch({ from: "/callback" });
-  console.log(params);
-  useEffect(() => {
-    Setting.CasdoorSDK.exchangeForAccessToken().then((res) => {
-      setToken(res.access_token);
-      redirect({ to: "/user" });
-    });
-  }, []);
-  return <Navigate to="/user" />;
+  const auth = Route.useLoaderData();
+  const context = useRouteContext({ from: "/callback" });
+  if (auth.access_token) {
+    Setting.setToken(auth.access_token);
+    context.isLoggedIn = true;
+    Route.router?.invalidate();
+    console.log(auth.access_token);
+  }
+
+  return context.isLoggedIn && <Navigate to="/user" />;
 };
 
 export const Route = createFileRoute("/callback")({
   component: AuthCallback,
+  loader: ({ context: { queryClient } }) =>
+    queryClient.ensureQueryData(authQueryOptions()),
 });

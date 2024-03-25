@@ -1,10 +1,13 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
-import * as Setting from "../Setting";
 
 export const Route = createFileRoute("/_layout")({
   component: () => <Outlet />,
-  beforeLoad: () => {
-    if (!Setting.isLoggedIn()) {
+  beforeLoad: ({ context }) => {
+    const isLoggedIn = context.queryClient.getQueryState<{
+      access_token: string;
+    }>(["auth"])?.data?.access_token;
+    console.log("isloggedin", isLoggedIn);
+    if (!isLoggedIn) {
       throw redirect({
         to: "/login",
         search: {
@@ -15,5 +18,6 @@ export const Route = createFileRoute("/_layout")({
         },
       });
     }
+    return isLoggedIn;
   },
 });
