@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 import * as Setting from "../Setting";
 
@@ -19,6 +19,6 @@ const Login = () => {
   );
 };
 
-export const Route = createLazyFileRoute("/login")({
+export const Route = createFileRoute("/login")({
   component: Login,
 });
