@@ -1,30 +1,68 @@
-# React + TypeScript + Vite
+# File-Based Routing Project with AuthN and AuthZ using Casdoor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a demonstration of file-based routing architecture for a web application with authentication and authorization features, implemented in TypeScript using React.js, React Query, and TanStack Router.
 
-Currently, two official plugins are available:
+## Introduction
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+File-based routing is an architectural pattern where routes are defined and managed using file system directories and files instead of a centralized routing configuration. It offers simplicity, clarity, and scalability to web applications.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **File-Based Routing**: Routes are defined as files in the `src/routes` directory, simplifying the organization and management of routes.
+- **Authentication with Casdoor**: Integration with [Casdoor](https://casdoor.org/) for user authentication and authorization.
+- **Clean Architecture**: Separation of concerns with clear boundaries between domain logic, application logic, and presentation.
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### Prerequisites
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v20 or higher)
+- [Docker](https://www.docker.com/)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/samir1498/file-based-routing.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd file-based-routing
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+### Usage
+
+1. Create a Docker volume for Casdoor data:
+
+   ```bash
+   docker volume create casdoorData
+   ```
+
+2. Start the Casdoor Docker container:
+
+   ```bash
+   docker run -p 8000:8000 -v casdoorData:/var/lib/mysql casbin/casdoor-all-in-one
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser and navigate to [http://localhost:5173](http://localhost:5173) to view the application.
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests to help improve this project.

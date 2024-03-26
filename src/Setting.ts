@@ -1,3 +1,4 @@
+// Settings.ts
 import Sdk from "casdoor-js-sdk";
 
 const sdkConfig = {

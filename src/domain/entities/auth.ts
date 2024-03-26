@@ -1,3 +1,4 @@
+// auth.ts
 import { QueryClient, queryOptions } from "@tanstack/react-query";
 import { CasdoorSDK } from "../../Setting";
 

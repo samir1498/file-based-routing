@@ -1,5 +1,6 @@
+// user.ts
 import { queryOptions } from "@tanstack/react-query";
-import { getUserInfo } from "../usecases/userUsecase";
+import { UserUseCase } from "../usecases/UserUseCase";
 export interface User {
   aud: string;
   iss: string;
@@ -19,21 +20,8 @@ export interface Userinfo extends Response {
   roles: string[];
 }
 
-async function fetchUserInfo(token: string) {
-  try {
-    const res = await getUserInfo(token);
-    console.log(res);
-    if (res.roles.includes("admin")) {
-      return res; // Only set user if name exists
-    } else {
-      console.warn("Missing 'roles' property in userinfo response");
-    }
-  } catch (error) {
-    console.error("Error fetching userinfo:", error);
-  }
-}
 export const userQueryOptions = (token: string) =>
   queryOptions({
     queryKey: ["user"],
-    queryFn: () => fetchUserInfo(token),
+    queryFn: async () => await UserUseCase.getUserInfo(token),
   });

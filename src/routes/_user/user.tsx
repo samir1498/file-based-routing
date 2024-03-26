@@ -1,7 +1,8 @@
+// src/routes/_user/user.tsx
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { getUserInfo } from "../../domain/usecases/userUsecase";
-import { getToken } from "../../domain/entities/auth";
+import { UserUseCase } from "../../domain/usecases/UserUseCase";
+import { AuthUseCase } from "../../domain/usecases/AuthUseCase";
 export const Route = createFileRoute("/_user/user")({
   component: Index,
 });
@@ -12,11 +13,10 @@ function Index() {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const res = await getUserInfo(
-          (await getToken(context.queryClient)) ?? ""
+        const res = await UserUseCase.getUserInfo(
+          AuthUseCase.getToken(context.queryClient) ?? ""
         );
-        console.log(res);
-        if (res.name) {
+        if (res?.name) {
           setUser(res.name); // Only set user if name exists
         } else {
           console.warn("Missing 'name' property in userinfo response");

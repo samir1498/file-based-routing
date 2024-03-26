@@ -1,3 +1,4 @@
+// src/routes/__root.tsx
 import {
   Link,
   Outlet,
@@ -5,9 +6,9 @@ import {
   useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { QueryClient } from "@tanstack/react-query";
 
 import * as Setting from "../Setting";
-import { Context } from "../types";
 
 function Layout() {
   const context = useRouteContext({ from: "__root__" });
@@ -41,6 +42,11 @@ function Layout() {
     </>
   );
 }
+
+export type Context = {
+  redirect: string;
+  queryClient: QueryClient;
+};
 
 export const Route = createRootRouteWithContext<Context>()({
   component: Layout,
