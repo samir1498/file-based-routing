@@ -1,68 +1,78 @@
-# File-Based Routing Project with AuthN and AuthZ using Casdoor
+# File-Based Routing with Authentication, Authorization, and Casdoor Integration (Bun & Vite)
 
-This project is a demonstration of file-based routing architecture for a web application with authentication and authorization features, implemented in TypeScript using React.js, React Query, and TanStack Router.
+This project showcases a file-based routing architecture for a web application leveraging Casdoor for user authentication and authorization. It's implemented in TypeScript using React.js, TanStack Query, TanStack Router, and Bun for dependency management. The development server utilizes Vite's efficiency.
 
-## Introduction
+**Key Features:**
 
-File-based routing is an architectural pattern where routes are defined and managed using file system directories and files instead of a centralized routing configuration. It offers simplicity, clarity, and scalability to web applications.
+- **Simple and Scalable Routing:** Manage routes using file system directories and files.
+- **Seamless Casdoor Integration:** Integrate Casdoor for user login and authorization functionalities.
+- **Clean Architecture:** Maintain clear separation of concerns for domain logic, application logic, and presentation.
+- **Fast Bun Integration:** Enjoy Bun's speed for dependency installation.
+- **Efficient Vite Development Server:** Benefit from Vite's fast build times and hot module replacement (HMR) during development.
 
-## Features
+**Important Security Note:**
 
-- **File-Based Routing**: Routes are defined as files in the `src/routes` directory, simplifying the organization and management of routes.
-- **Authentication with Casdoor**: Integration with [Casdoor](https://casdoor.org/) for user authentication and authorization.
-- **Clean Architecture**: Separation of concerns with clear boundaries between domain logic, application logic, and presentation.
+- While some Casdoor versions might have a default admin account with username "admin" and password "123," **never** use these credentials in production environments. Always set strong, unique passwords and consider multi-factor authentication (MFA) for enhanced security.
 
-## Getting Started
+**Casdoor Organization and Application Setup:**
 
-### Prerequisites
+1. **Login to Casdoor:** Open [http://localhost:8000](http://localhost:8000) in your browser and log in or create a new account.
+2. **Create an Organization:** Navigate to the "Organizations" section and create a new organization (e.g., "File-Based-Routing-Demo").
+3. **Create an Application:** Within your organization, create a new application (e.g., "File-Based-Routing-App"). Fill out the details, including redirect URI (matching your application's configuration).
+4. **Retrieve Application Details:** Note down the Client ID and Server URL displayed on the application's details page.
+5. **Configure Project Environment:** Create a `.env` file in your project's root directory and add the required environment variables:
 
-Ensure you have the following installed:
+```plaintext
+VITE_SERVER_URL=<Your Casdoor Server URL>
+VITE_CLIENT_ID=<Your Casdoor Client ID>
+VITE_ORG_NAME=<Your Casdoor Organization Name>
+VITE_APP_NAME=<Your Casdoor Application Name>
+VITE_REDIRECT_PATH=<Your Casdoor Redirect Path>
+```
 
-- [Node.js](https://nodejs.org/) (v20 or higher)
-- [Docker](https://www.docker.com/)
+**Creating Test Users (for Testing Only):**
 
-### Installation
+- It's recommended to create a few test users within Casdoor for initial testing purposes. You can achieve this through the Casdoor user management interface.
 
-1. Clone the repository:
+**Running the Application:**
 
-   ```bash
-   git clone https://github.com/samir1498/file-based-routing.git
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
-   cd file-based-routing
-   ```
-
-3. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-### Usage
-
-1. Create a Docker volume for Casdoor data:
+1. Start the development server with Vite:
 
    ```bash
-   docker volume create casdoorData
+   bun dev
    ```
 
-2. Start the Casdoor Docker container:
+2. Open your browser and navigate to [http://localhost:5173](http://localhost:5173) to view the application.
 
-   ```bash
-   docker run -p 8000:8000 -v casdoorData:/var/lib/mysql casbin/casdoor-all-in-one
-   ```
+**Contributing:**
 
-3. Start the development server:
+I welcome contributions! Feel free to open issues or submit pull requests.
 
-   ```bash
-   npm run dev
-   ```
+**Additional Notes:**
 
-4. Open your browser and navigate to [http://localhost:5173](http://localhost:5173) to view the application.
+- Refer to the Casdoor documentation for in-depth information on user creation, role management, and API usage.
 
-## Contributing
+## Starting the Casdoor Docker Container
 
-Contributions are welcome! Feel free to open issues or submit pull requests to help improve this project.
+To start the Casdoor Docker container, run the following command:
+
+```bash
+docker volume create casdoorData
+```
+
+After creating the Docker volume, you can start the Casdoor Docker container with the following command:
+
+```bash
+docker run -p 8000:8000 -v casdoorData:/var/lib/mysql casbin/casdoor-all-in-one
+```
+
+This command will start the Casdoor container with the required ports mapped and a volume mounted for persistent data storage.
+
+## Additional References
+
+- [Casdoor Documentation](https://casdoor.org)
+- [React.js Documentation](https://react.dev)
+- [TanStack Query Documentation](https://tanstack.com/query)
+- [TanStack Router Documentation](https://tanstack.com/router)
+- [Vite Documentation](https://vitejs.dev)
+- [Bun Documentation](https://bun.sh/docs)
