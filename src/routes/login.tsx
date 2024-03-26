@@ -21,4 +21,7 @@ const Login = () => {
 
 export const Route = createFileRoute("/login")({
   component: Login,
+  beforeLoad: ({ context }) => {
+    console.log(context);
+  },
 });

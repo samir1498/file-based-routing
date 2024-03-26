@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 
 export type Context = {
-  isLoggedIn: boolean;
+  redirect: string;
   queryClient: QueryClient;
 };

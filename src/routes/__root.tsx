@@ -2,14 +2,16 @@ import {
   Link,
   Outlet,
   createRootRouteWithContext,
+  useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 import * as Setting from "../Setting";
 import { Context } from "../types";
 
-export const Route = createRootRouteWithContext<Context>()({
-  component: () => (
+function Layout() {
+  const context = useRouteContext({ from: "__root__" });
+  return (
     <>
       <div className="p-2 flex gap-2">
         <Link to="/admin" className="[&.active]:font-bold">
@@ -23,8 +25,11 @@ export const Route = createRootRouteWithContext<Context>()({
           style={{
             marginLeft: "1rem",
           }}
-          onClick={() => {
+          onClick={async () => {
             Setting.logout();
+            context.queryClient.clear();
+
+            Route.router?.invalidate();
           }}
         >
           Logout
@@ -34,5 +39,9 @@ export const Route = createRootRouteWithContext<Context>()({
       <Outlet />
       <TanStackRouterDevtools />
     </>
-  ),
+  );
+}
+
+export const Route = createRootRouteWithContext<Context>()({
+  component: Layout,
 });

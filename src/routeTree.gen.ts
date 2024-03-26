@@ -13,10 +13,11 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as CallbackImport } from './routes/callback'
-import { Route as LayoutImport } from './routes/_layout'
-import { Route as LayoutIndexImport } from './routes/_layout/index'
-import { Route as LayoutUserImport } from './routes/_layout/user'
-import { Route as LayoutAdminImport } from './routes/_layout/admin'
+import { Route as UserImport } from './routes/_user'
+import { Route as AdminImport } from './routes/_admin'
+import { Route as IndexImport } from './routes/index'
+import { Route as UserUserImport } from './routes/_user/user'
+import { Route as AdminAdminImport } from './routes/_admin/admin'
 
 // Create/Update Routes
 
@@ -30,32 +31,45 @@ const CallbackRoute = CallbackImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutRoute = LayoutImport.update({
-  id: '/_layout',
+const UserRoute = UserImport.update({
+  id: '/_user',
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutIndexRoute = LayoutIndexImport.update({
+const AdminRoute = AdminImport.update({
+  id: '/_admin',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
   path: '/',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutUserRoute = LayoutUserImport.update({
+const UserUserRoute = UserUserImport.update({
   path: '/user',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => UserRoute,
 } as any)
 
-const LayoutAdminRoute = LayoutAdminImport.update({
+const AdminAdminRoute = AdminAdminImport.update({
   path: '/admin',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_layout': {
-      preLoaderRoute: typeof LayoutImport
+    '/': {
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_admin': {
+      preLoaderRoute: typeof AdminImport
+      parentRoute: typeof rootRoute
+    }
+    '/_user': {
+      preLoaderRoute: typeof UserImport
       parentRoute: typeof rootRoute
     }
     '/callback': {
@@ -66,17 +80,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/_layout/admin': {
-      preLoaderRoute: typeof LayoutAdminImport
-      parentRoute: typeof LayoutImport
+    '/_admin/admin': {
+      preLoaderRoute: typeof AdminAdminImport
+      parentRoute: typeof AdminImport
     }
-    '/_layout/user': {
-      preLoaderRoute: typeof LayoutUserImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/': {
-      preLoaderRoute: typeof LayoutIndexImport
-      parentRoute: typeof LayoutImport
+    '/_user/user': {
+      preLoaderRoute: typeof UserUserImport
+      parentRoute: typeof UserImport
     }
   }
 }
@@ -84,11 +94,9 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  LayoutRoute.addChildren([
-    LayoutAdminRoute,
-    LayoutUserRoute,
-    LayoutIndexRoute,
-  ]),
+  IndexRoute,
+  AdminRoute.addChildren([AdminAdminRoute]),
+  UserRoute.addChildren([UserUserRoute]),
   CallbackRoute,
   LoginRoute,
 ])

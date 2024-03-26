@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  context: { isLoggedIn: false, queryClient },
+  context: { queryClient, redirect: "/" },
 });
 
 // Register the router instance for type safety
